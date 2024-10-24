@@ -1,72 +1,431 @@
----
-layout: default
-title: Home
-notitle: true
 
-# groups of columns of {roles: list, width: num, image: bool}
-role-tables:
-- - roles: [faculty, postdoc, staff]
-    width: 4
-    image: true
-  - roles: [grad]
-    width: 8
-    image: true
-- - roles: [collab, ugrad, ugrad-alum]
-    width: 5
-    image: false
-  - roles: [alum]
-    width: 7
-    image: false
-
----
-
-<div class="jumbotron">
-    <p>
-        <b>肖航课题组</b>开发了首个<b>基于字符串的可逆晶体表示法: SLICES</b>,实现了生成式AI驱动的<b>Text2Crystal</b>。SLICES有望成为AI驱动的晶体材料逆向设计的标准工具,即<b>晶体材料的"SMILES"</b>。 
-    </p>
-    <p>
-    The <b>XIAO Research Group</b> developed the first <b>string-based invertible, invariant crystallographic representation: SLICES</b>, achieving <b>Text2Crystal</b> powered by generative AI. SLICES has the potential to become a standard tool for <i> in-silico </i> materials discovery, i.e. "SMILES" for crystal structures.
-    </p>
-</div>
-
-<script
-	type="module"
-	src="https://gradio.s3-us-west-2.amazonaws.com/4.41.0/gradio.js"
-></script>
-
-<gradio-app src="https://Dhr010911-Dengqining.hf.space" theme_mode="light"></gradio-app>
-
-
-
-
-<section>
-    <h2>News</h2>
-    <ul class="news list-unstyled">
-        {% for post in site.posts limit: site.front_page_news %}
-            {% include news-item.html item=post %}
-        {% endfor %}
-    </ul>
-    {% assign numposts = site.posts | size %}
-    {% if numposts >= 1 %}
-        <p>
-            <span class="fa fa-fw fa-history"></span>
-            <a href="{{ site.base }}/blog.html">Older posts&hellip;</a>
-        </p>
-    {% endif %}
-</section>
-
-
-<div id="people">
-    <h2>People</h2>
-    {% for role-table in page.role-tables %}
-        <section class="people row justify-content-between">
-            {% for role-column in role-table %}
-                <div class="col-md-{{ role-column.width }}">
-                    {% for role in role-column.roles %}
-                        {% include role-people.html role=role image=role-column.image %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </section>
-    {% endfor %}
-</div>
+/* 页面基础样式 */
+body {
+   font-family: 'Arial', sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #e0eafc, #cfdef3);
+   box-sizing: border-box;
+}
+ 
+/* 头部样式 */
+.header {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 20px;
+   font-size: 32px;
+}
+ 
+/* 播放按钮样式 */
+.play-button-container {
+   text-align: center;
+   margin: 20px;
+}
+ 
+#play-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 18px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+ 
+#play-button:hover {
+   background-color: #0056b3;
+}
+ 
+/* 图片轮播区域 */
+.carousel {
+   text-align: center;
+   margin: 20px auto;
+}
+ 
+#carousel-image {
+   width: 80%;
+   max-width: 600px;
+   height: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+ 
+/* 文字介绍样式 */
+.description {
+   text-align: center;
+   padding: 20px;
+   margin: 10px auto;
+   max-width: 800px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* 音乐播放器样式 */
+.music-player {
+   text-align: center;
+   margin: 20px;
+}
+ 
+audio {
+   width: 80%;
+   max-width: 600px;
+}
+ 
+/* 页脚样式 */
+.footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #333;
+   color: white;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
+ 
+/* 页面基础样式 */
+body {
+   font-family: 'Arial', sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #e0eafc, #cfdef3);
+   box-sizing: border-box;
+}
+ 
+/* 头部样式 */
+.header {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 20px;
+   font-size: 32px;
+}
+ 
+/* 播放按钮样式 */
+.play-button-container {
+   text-align: center;
+   margin: 20px;
+}
+ 
+#play-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 18px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+ 
+#play-button:hover {
+   background-color: #0056b3;
+}
+ 
+/* 图片轮播区域 */
+.carousel {
+   text-align: center;
+   margin: 20px auto;
+}
+ 
+#carousel-image {
+   width: 80%;
+   max-width: 600px;
+   height: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+ 
+/* 文字介绍样式 */
+.description {
+   text-align: center;
+   padding: 20px;
+   margin: 10px auto;
+   max-width: 800px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* 音乐播放器样式 */
+.music-player {
+   text-align: center;
+   margin: 20px;
+}
+ 
+audio {
+   width: 80%;
+   max-width: 600px;
+}
+ 
+/* 页脚样式 */
+.footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #333;
+   color: white;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
+ 
+/* 页面基础样式 */
+body {
+   font-family: 'Arial', sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #e0eafc, #cfdef3);
+   box-sizing: border-box;
+}
+ 
+/* 头部样式 */
+.header {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 20px;
+   font-size: 32px;
+}
+ 
+/* 播放按钮样式 */
+.play-button-container {
+   text-align: center;
+   margin: 20px;
+}
+ 
+#play-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 18px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+ 
+#play-button:hover {
+   background-color: #0056b3;
+}
+ 
+/* 图片轮播区域 */
+.carousel {
+   text-align: center;
+   margin: 20px auto;
+}
+ 
+#carousel-image {
+   width: 80%;
+   max-width: 600px;
+   height: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+ 
+/* 文字介绍样式 */
+.description {
+   text-align: center;
+   padding: 20px;
+   margin: 10px auto;
+   max-width: 800px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* 音乐播放器样式 */
+.music-player {
+   text-align: center;
+   margin: 20px;
+}
+ 
+audio {
+   width: 80%;
+   max-width: 600px;
+}
+ 
+/* 页脚样式 */
+.footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #333;
+   color: white;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
+ 
+/* 页面基础样式 */
+body {
+   font-family: 'Arial', sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #e0eafc, #cfdef3);
+   box-sizing: border-box;
+}
+ 
+/* 头部样式 */
+.header {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 20px;
+   font-size: 32px;
+}
+ 
+/* 播放按钮样式 */
+.play-button-container {
+   text-align: center;
+   margin: 20px;
+}
+ 
+#play-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 18px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+ 
+#play-button:hover {
+   background-color: #0056b3;
+}
+ 
+/* 图片轮播区域 */
+.carousel {
+   text-align: center;
+   margin: 20px auto;
+}
+ 
+#carousel-image {
+   width: 80%;
+   max-width: 600px;
+   height: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+ 
+/* 文字介绍样式 */
+.description {
+   text-align: center;
+   padding: 20px;
+   margin: 10px auto;
+   max-width: 800px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* 音乐播放器样式 */
+.music-player {
+   text-align: center;
+   margin: 20px;
+}
+ 
+audio {
+   width: 80%;
+   max-width: 600px;
+}
+ 
+/* 页脚样式 */
+.footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #333;
+   color: white;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
+ 
+/* 页面基础样式 */
+body {
+   font-family: 'Arial', sans-serif;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(135deg, #e0eafc, #cfdef3);
+   box-sizing: border-box;
+}
+ 
+/* 头部样式 */
+.header {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 20px;
+   font-size: 32px;
+}
+ 
+/* 播放按钮样式 */
+.play-button-container {
+   text-align: center;
+   margin: 20px;
+}
+ 
+#play-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 18px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+ 
+#play-button:hover {
+   background-color: #0056b3;
+}
+ 
+/* 图片轮播区域 */
+.carousel {
+   text-align: center;
+   margin: 20px auto;
+}
+ 
+#carousel-image {
+   width: 80%;
+   max-width: 600px;
+   height: auto;
+   border-radius: 15px;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+ 
+/* 文字介绍样式 */
+.description {
+   text-align: center;
+   padding: 20px;
+   margin: 10px auto;
+   max-width: 800px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* 音乐播放器样式 */
+.music-player {
+   text-align: center;
+   margin: 20px;
+}
+ 
+audio {
+   width: 80%;
+   max-width: 600px;
+}
+ 
+/* 页脚样式 */
+.footer {
+   text-align: center;
+   padding: 10px;
+   background-color: #333;
+   color: white;
+   position: fixed;
+   width: 100%;
+   bottom: 0;
+}
+ 
